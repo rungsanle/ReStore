@@ -26,7 +26,30 @@ namespace API.Controllers
         [HttpGet("{id}")] //api/products/3
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            return await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
+            
+            if(product == null)
+            {
+                return NotFound();
+            }
+
+            return product;
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Product>> CreateProduct(Product prod)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            _context.Products.Add(prod);
+
+            await _context.SaveChangesAsync();
+
+            return prod;
+        }
+
     }
 }
