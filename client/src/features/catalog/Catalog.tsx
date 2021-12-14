@@ -1,22 +1,21 @@
 import { useState, useEffect } from "react";
+import agent from "../../app/api/agent";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Product } from "../../app/models/product";
 import ProductList from "./ProductList";
 
 export default function Catalog() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/Products")
-      .then((response) => response.json())
-      .catch((err) => {
-        throw new Error(err);
-      })
-      .then((data) => setProducts(data))
-      .catch((err) => {
-        throw new Error(err);
-      })
-      .catch((error) => console.log("Authorization failed : " + error.message));
+    agent.Catalog.list()
+      .then((products) => setProducts(products))
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) return <LoadingComponent message="Loding products..." />;
 
   return (
     <>
