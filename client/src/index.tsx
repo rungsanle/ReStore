@@ -7,6 +7,7 @@ import type { BrowserHistory } from "history";
 import { Router } from "react-router-dom";
 
 import { createBrowserHistory } from "history";
+import { StoreProvider } from "./app/context/StoreContext";
 export const history = createBrowserHistory();
 
 export interface HistoryRouterProps {
@@ -41,7 +42,9 @@ export function HistoryRouter({
 ReactDOM.render(
   <React.StrictMode>
     <HistoryRouter history={history}>
-      <App />
+      <StoreProvider>
+        <App />
+      </StoreProvider>
     </HistoryRouter>
     ,
   </React.StrictMode>,
