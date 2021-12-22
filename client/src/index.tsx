@@ -7,7 +7,8 @@ import type { BrowserHistory } from "history";
 import { Router } from "react-router-dom";
 
 import { createBrowserHistory } from "history";
-import { StoreProvider } from "./app/context/StoreContext";
+import { Provider } from "react-redux";
+import { store } from "./app/store/configureStore";
 export const history = createBrowserHistory();
 
 export interface HistoryRouterProps {
@@ -42,9 +43,9 @@ export function HistoryRouter({
 ReactDOM.render(
   <React.StrictMode>
     <HistoryRouter history={history}>
-      <StoreProvider>
+      <Provider store={store}>
         <App />
-      </StoreProvider>
+      </Provider>
     </HistoryRouter>
     ,
   </React.StrictMode>,
